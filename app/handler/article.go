@@ -21,3 +21,8 @@ func CreateArticle(c *gin.Context) {
 	}
 	util.Success(c, nil)
 }
+func GetArticleList(c *gin.Context) {
+	article := service.GetArticleListService()
+
+	util.Success(c, article)
+}

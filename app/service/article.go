@@ -13,3 +13,8 @@ func CreatePostService(item schema.Article) (ok bool) {
 	}
 	return false
 }
+func GetArticleListService() (articles []*schema.Article) {
+	db := core.GetDB()
+	db.Find(&articles)
+	return articles
+}
