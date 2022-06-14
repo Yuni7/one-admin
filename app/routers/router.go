@@ -15,6 +15,7 @@ func InitRouter() {
 		articleGroup.GET("/get-article-list", handler.GetArticleList)
 		articleGroup.POST("/update-article", handler.UpdateArticle)
 		articleGroup.DELETE(":id", handler.DeleteArticleById)
+		articleGroup.GET("", handler.Query)
 	}
 	r.Run(":5560")
 }

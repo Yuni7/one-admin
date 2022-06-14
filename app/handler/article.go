@@ -10,6 +10,24 @@ import (
 	"test-gin-admin/util"
 )
 
+func Query(c *gin.Context) {
+	var params schema.ArticleQueryParam
+	if err := c.ShouldBindQuery(&params); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	params.Pagination = true
+	result, err := service.Query(params, schema.ArticleQueryOptions{
+		OrderFields: schema.NewOrderFields(schema.NewOrderField("id", schema.OrderByDESC)),
+	})
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	util.Success(c, result)
+
+}
+
 func CreateArticle(c *gin.Context) {
 	var article schema.Article
 	if err := c.ShouldBindJSON(&article); err != nil {

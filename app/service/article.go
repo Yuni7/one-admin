@@ -2,8 +2,41 @@ package service
 
 import (
 	"test-gin-admin/core"
+	"test-gin-admin/models"
 	"test-gin-admin/schema"
+	"test-gin-admin/util"
 )
+
+func Query(params schema.ArticleQueryParam, opts ...schema.ArticleQueryOptions) (*schema.ArticleQueryResult, error) {
+	var opt schema.ArticleQueryOptions
+	db := core.GetDB().Model(new(models.Article))
+	if len(opts) > 0 {
+		opt = opts[0]
+	}
+	if v := params.Title; v != "" {
+		db = db.Where("name=?", v)
+	}
+	if v := params.Content; v != "" {
+		db = db.Where("content=?", v)
+	}
+
+	if len(opt.SelectFields) > 0 {
+		db = db.Select(opt.SelectFields)
+	}
+	if len(opt.OrderFields) > 0 {
+		db = db.Order(util.ParseOrder(opt.OrderFields))
+	}
+	var list models.Articles
+	pr, err := util.WrapPageQuery(db, params.PaginationParam, &list)
+	if err != nil {
+		return nil, err
+	}
+	qr := &schema.ArticleQueryResult{
+		PageResult: pr,
+		Data:       list.ToSchemaArticles(),
+	}
+	return qr, nil
+}
 
 func CreatePostService(item schema.Article) (ok bool) {
 	db := core.GetDB()
