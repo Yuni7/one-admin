@@ -9,7 +9,8 @@ import (
 
 func Query(params schema.ArticleQueryParam, opts ...schema.ArticleQueryOptions) (*schema.ArticleQueryResult, error) {
 	var opt schema.ArticleQueryOptions
-	db := core.GetDB().Model(new(models.Article))
+	db := core.GetDB().Model(new(schema.Article))
+
 	if len(opts) > 0 {
 		opt = opts[0]
 	}
