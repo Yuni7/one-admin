@@ -15,7 +15,7 @@ func Query(params schema.ArticleQueryParam, opts ...schema.ArticleQueryOptions) 
 		opt = opts[0]
 	}
 	if v := params.Title; v != "" {
-		db = db.Where("name=?", v)
+		db = db.Where("title=?", v)
 	}
 	if v := params.Content; v != "" {
 		db = db.Where("content=?", v)
