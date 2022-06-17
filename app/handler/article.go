@@ -28,6 +28,15 @@ func Query(c *gin.Context) {
 
 }
 
+func GetTopArticle(c *gin.Context) {
+	res, err := service.GetTopArticle()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+	util.Success(c, res)
+
+}
+
 func CreateArticle(c *gin.Context) {
 	var article schema.Article
 	if err := c.ShouldBindJSON(&article); err != nil {

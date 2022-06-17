@@ -68,3 +68,11 @@ func DeleteArticleById(id uint64) bool {
 	}
 	return false
 }
+func GetTopArticle() (toparticles []*schema.TopArticle, err error) {
+	db := core.GetDB()
+	res := db.Model(schema.Article{}).Select("title,count(title) as total").Group("title").Order("count(title)").Find(&toparticles)
+	if err := res.Error; err != nil {
+		return nil, err
+	}
+	return toparticles, nil
+}

@@ -14,6 +14,11 @@ type Article struct {
 	DeletedAt time.Time `json:"deleted_at"`
 }
 
+type TopArticle struct {
+	Title string `json:"title"`
+	Total int    `json:"total"`
+}
+
 // Articles 文章列表
 type Articles []*Article
 
